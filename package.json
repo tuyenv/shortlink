@@ -1,0 +1,25 @@
+{
+  "name": "shortlink",
+  "version": "1.0.0",
+  "description": "npm init -y",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tuyenv/shortlink.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tuyenv/shortlink/issues"
+  },
+  "homepage": "https://github.com/tuyenv/shortlink#readme",
+  "dependencies": {
+    "consolidate": "^0.14.5",
+    "mustache": "^2.3.0"
+  }
+}
