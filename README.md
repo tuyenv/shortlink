@@ -2,10 +2,12 @@
 
 npm init -y
 npm install -g nodemon
+npm install shortid
 npm install router
 npm install finalhandler
 npm install path
 npm i -S mustache consolidate
+npm install level
 
 
 Package 1: shortid  Build Status shortid

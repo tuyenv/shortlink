@@ -4,14 +4,17 @@ const Router = require('router');
 const finalhandler = require('finalhandler');
 const path = require('path');
 const view = require('consolidate');
+const shortid = require('shortid');
+
 const app = new Router();
+const qs = require('querystring');
 
 // level database
 const level = require('level');
 const dbpath = path.resolve('./db');
-const db = level.(dbpath);
+const db = level(dbpath);
 
-// middleware 1
+// middleware
 app.use((req, res, next) => {
   res.render = function render(filename, params) {
     var file = path.resolve(__dirname + '/views', filename);
@@ -25,7 +28,20 @@ app.use((req, res, next) => {
   next();
 });
 
-// middleware 2
+app.use((req, res, next) => {
+  if (req.method !== 'POST') { return next(); }
+
+  let body = '';
+  req.on('data', (buf) => {
+    body += buf.toString();
+  });
+
+  req.on('end', () => {
+    req.body = qs.parse(body);
+    next();
+  })
+});
+
 app.use((req, res, next) => {
   res.json = function json(obj) {
     res.setHeader('Content-Type', 'application/json');
@@ -42,15 +58,40 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/contact', (req, res) => {
-  res.render('contact.html');
+app.post('/', (req, res) => {
+  if (! req.body.url) {
+    return res.render('home.html', {
+      msg: 'url missing'
+    });
+  }
+
+  let id = shortid.generate();
+  db.put(id, req.body.url, (err) => {
+    if (err) {
+      return res.render('home.html', {
+        msg: err.toString()
+      });
+    }
+
+    let url = 'http://localhost:3000/' + id;
+    res.render('home.html', {
+      msg: `Your url ${url}`
+    });
+  });
 });
 
-app.get('/user', (req, res) => {
-  res.json({
-    username: 'admin',
-    age: 30
-  })
+app.get('/:id', (req, res) => {
+  db.get(req.params.id, (err, url) => {
+    res.setHeader('Content-Type', 'text/html');
+    if (err) {
+      res.statusCode = 404;
+      res.end('404 not found');
+    }
+
+    res.statusCode = 301;
+    res.setHeader('Location', url);
+    res.end();
+  });
 });
 
 // configuration env port
