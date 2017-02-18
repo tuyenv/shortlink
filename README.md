@@ -8,6 +8,7 @@ npm install finalhandler
 npm install path
 npm i -S mustache consolidate
 npm install level
+npm install dotenv
 
 
 Package 1: shortid  Build Status shortid

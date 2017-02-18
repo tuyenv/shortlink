@@ -4,7 +4,7 @@
   "description": "npm init -y",
   "main": "index.js",
   "scripts": {
-    "start": "node app",
+    "start": "node index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,6 +20,12 @@
   "homepage": "https://github.com/tuyenv/shortlink#readme",
   "dependencies": {
     "consolidate": "^0.14.5",
-    "mustache": "^2.3.0"
+    "dotenv": "^4.0.0",
+    "finalhandler": "^1.0.0",
+    "level": "^1.6.0",
+    "mustache": "^2.3.0",
+    "path": "^0.12.7",
+    "router": "^1.2.0",
+    "shortid": "^2.2.6"
   }
 }
